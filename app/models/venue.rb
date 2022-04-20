@@ -5,15 +5,16 @@ class Venue < ActiveRecord::Base
   #   Venue#concert_on(date)
   # takes a date (string) as argument
   # finds and returns the first concert on that date at that venue
-
   def concert_on(date)
-    self.concerts.map do |concert|
-      if concert.date == date
-        puts "#{concert}"
-      else
-        puts 'false'
-      end
-    end
+    # self.concerts.map do |concert|
+    #   if concert.date == date
+    #      "#{concert}"
+    #   else
+    #     'false'
+    #   end
+    # end
+
+    self.concerts.find_by(date: date)
   end
 
   # Venue#most_frequent_band

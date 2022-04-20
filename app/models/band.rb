@@ -6,12 +6,12 @@ class Band < ActiveRecord::Base
   # takes a venue (Venue instance) and date (as a string) as arguments
   # creates a new concert for the band in that venue on that date
   def play_in_venue(venue, date)
-    temp == 0
-    Venue.all.map do |v|
-      v.title == venue ? temp == v.id : temp == 'venue does not exist'
-      return temp
-    end
-    Concert.create(band_id: self.id, venue_id: temp, date: date)
+    #   temp == 0
+    #   Venue.all.map do |v|
+    #     v.title == venue ? temp == v.id : temp == 'venue does not exist'
+    #     return temp
+    #   end
+    Concert.create(band_id: self.id, venue_id: venue.id, date: date)
   end
 
   # Band#all_introductions
@@ -20,18 +20,15 @@ class Band < ActiveRecord::Base
   # "Hello {insert venue city}!!!!! We are {insert band name} and we're from
   # {insert band hometown}"
   def all_introductions
-    self.concerts.map do |b|
-      "Hello #{b.venue.city}!!!!! We are #{self.name} and we're from #{self.hometown}"
-    end
+    self.concerts.map { |b| b.introductions }
   end
 
   # Band.most_performances
   # returns the Band instance for the band that has played the most concerts
   # Note: solving this using only Active Record methods is possible, but difficult.
   # Feel free to use regular Ruby enumerable methods here.
-  def most_performances
-    arr = []
-    self.concerts.map { |b| arr << b.venue.city }
-    arr.max_by { |c| arr.count(c) }
+  def self.most_performances
+    Band.all.max_by { |band| band.concerts.count }
   end
 end
+# on class method
